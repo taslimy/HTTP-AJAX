@@ -32,6 +32,31 @@ export default class App extends Component {
       });
   }
 
+  // Add a friend button idk where to go from here.... xd
+  addAFriend = event => {
+    event.preventDefault();
+    this.setState({
+      newFriend: {
+        // ID has to be unique so lets just add to it maybe idk
+        ...this.state.newFriend,
+        id: this.state.friends.length + 1
+      }
+    });
+
+    axios
+      .post("http://localhost:5000/friends", this.state.newFriend)
+      .then(res => this.setState({ friends: res.data }))
+      .catch(err => console.log(err));
+
+    this.setState({
+      newFriend: {
+        name: "",
+        age: "",
+        email: ""
+      }
+    });
+  };
+
   // https://kapeli.com/cheat_sheets/Axios.docset/Contents/Resources/Documents/index
 
   render() {
@@ -48,7 +73,9 @@ export default class App extends Component {
         <Route
           exact
           path="/addfriend"
-          render={Props => <FriendForm {...Props} />}
+          render={Props => (
+            <FriendForm {...Props} addAFriend={this.addAFriend} />
+          )}
         />
       </div>
     );
