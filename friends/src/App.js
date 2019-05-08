@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
 import axios from "axios";
-import Friend from "./components/Friend";
 import Home from "./components/Home";
+import FriendForm from "./components/FriendForm";
+import FriendList from "./components/FriendList";
 import "./App.css";
 
 export default class App extends Component {
@@ -31,14 +32,24 @@ export default class App extends Component {
       });
   }
 
-
   // https://kapeli.com/cheat_sheets/Axios.docset/Contents/Resources/Documents/index
 
   render() {
     return (
       <div>
         <Route exact path="/" component={Home} />
-        <Route path="/friend" component={Friend} />
+        <Route
+          exact
+          path="/friends"
+          render={props => (
+            <FriendList {...props} friends={this.state.friends} />
+          )}
+        />
+        <Route
+          exact
+          path="/addfriend"
+          render={Props => <FriendForm {...Props} />}
+        />
       </div>
     );
   }
