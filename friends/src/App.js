@@ -44,9 +44,12 @@ export default class App extends Component {
       });
 
       axios
-        .post('http://localhost:5000/friends', this.state.newFriend)
-        .then(res => this.setState({friends:res.data}))
-        .catch(err => console.log(err))
+        .post("http://localhost:5000/friends", this.state.newFriend)
+        .then(res => {
+          this.setState({ friends: res.data });
+          this.props.history.push("/");
+        })
+        .catch(err => console.log(err));
 
       this.setState({
         newFriend: {
@@ -55,6 +58,21 @@ export default class App extends Component {
           email: ""
         }
       });
+  }
+
+
+    deleteAFriend = (e,id )=> {
+    e.preventDefault();;
+      axios
+        .delete(
+          `http://localhost:5000/friends${id}`
+        )
+        .then(res => {
+          this.setState({ friends: res.data });
+          this.props.history.push("/");
+        })
+        .catch(err => console.log(err));
+
   }
 
   friendHandler = (name, value) => {
@@ -75,7 +93,11 @@ export default class App extends Component {
           exact
           path="/"
           render={props => (
-            <FriendList {...props} friends={this.state.friends} />
+            <FriendList
+              {...props}
+              deleteAFriend={this.deleteAFriend}
+              friends={this.state.friends}
+            />
           )}
         />
         <Route

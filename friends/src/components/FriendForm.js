@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 
 export default class FriendForm extends Component {
   render() {
@@ -66,10 +65,6 @@ export default class FriendForm extends Component {
               className="ui positive button">
               Add a Friend
             </button>
-
-            <Link exact to="/">
-              <button className="ui button"> Back to Current Friends</button>
-            </Link>
           </form>
         </div>
       </div>

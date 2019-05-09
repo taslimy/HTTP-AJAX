@@ -1,9 +1,29 @@
 import React, { Component, Fragment } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
 import "../App.css";
 
 export default class FriendList extends Component {
+ state = {
+    friends: null
+  };
+
+  componentDidMount() {
+    axios
+      .get(`http://localhost:5000/${this.props.match.params.id}`)
+      .then(res => this.setState({ friends: res.data }))
+      .catch(err => console.log(err));
+  }
+
+  deleteAFriend= e => {
+    e.preventDefault();
+    this.props.deleteAFriend(this.state.friends.id);
+  };
+
   render() {
+      //  const { friends } = this.state;
+      //  if (!this.state.friends) {
+      //    return <h2>Loading friends. Ya Got None</h2>;
+      //  }
     return (
       <Fragment>
         <div className="ui container">
@@ -25,7 +45,10 @@ export default class FriendList extends Component {
                   </div>
                 </div>
                 <div className="extra content">
-                  <button className="ui negative button">
+                  <button
+                    onSubmit={this.deleteAFriend}
+                    className="ui negative button"
+                  >
                     Delete Friend
                   </button>
                 </div>
