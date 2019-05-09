@@ -5,10 +5,15 @@ export default class Home extends Component {
   render() {
     return (
       <div>
-        <h1> Home Page - Wanana be my friend? :)</h1>
-        <Link exact to="/friends">
-          <button> Go see my friends list</button>
-        </Link>
+        <div className="ui menu">
+          <div className="header item">Friends App</div>
+          <Link exact to="/" className="item">
+            Current Friends
+          </Link>
+          <Link exact to="/addfriend" className="item">
+            Become a Friend
+          </Link>
+        </div>
       </div>
     );
   }

@@ -20,52 +20,60 @@ export default class App extends Component {
     };
   }
 
-  componentDidMount() {
-    axios
-      .get(`http://localhost:5000/friends`)
-      .then(res => {
-        console.log(res);
-        this.setState({ friends: res.data });
-      })
-      .catch(err => {
-        console.log(err);
+   componentDidMount() {
+    axios     
+    .get(`http://localhost:5000/friends`)
+       .then(res => {
+        //  console.log(res.data);
+         this.setState({
+           friends: res.data
+         });
+       })
+       .catch(err => {
+         console.log(err);
+       });
+  }
+
+  addAFriend = (event )=> {
+    event.preventDefault();;
+      this.setState({
+        newFriend: {
+          ...this.state.newFriend,
+          id: this.state.friends.length + 1
+        }
+      });
+
+      axios
+        .post('http://localhost:5000/friends', this.state.newFriend)
+        .then(res => this.setState({friends:res.data}))
+        .catch(err => console.log(err))
+
+      this.setState({
+        newFriend: {
+          name: "",
+          age: "",
+          email: ""
+        }
       });
   }
 
-  // Add a friend button idk where to go from here.... xd
-  addAFriend = event => {
-    event.preventDefault();
+  friendHandler = (name, value) => {
     this.setState({
       newFriend: {
-        // ID has to be unique so lets just add to it maybe idk
         ...this.state.newFriend,
-        id: this.state.friends.length + 1
+        [name]: value
       }
     });
-
-    axios
-      .post("http://localhost:5000/friends", this.state.newFriend)
-      .then(res => this.setState({ friends: res.data }))
-      .catch(err => console.log(err));
-
-    this.setState({
-      newFriend: {
-        name: "",
-        age: "",
-        email: ""
-      }
-    });
-  };
-
-  // https://kapeli.com/cheat_sheets/Axios.docset/Contents/Resources/Documents/index
+    
+};
 
   render() {
     return (
-      <div>
-        <Route exact path="/" component={Home} />
+      <div className="ui container">
+        <Route path="/" component={Home} />
         <Route
           exact
-          path="/friends"
+          path="/"
           render={props => (
             <FriendList {...props} friends={this.state.friends} />
           )}
@@ -74,7 +82,12 @@ export default class App extends Component {
           exact
           path="/addfriend"
           render={Props => (
-            <FriendForm {...Props} addAFriend={this.addAFriend} />
+            <FriendForm
+              {...Props}
+              newFriend={this.state.newFriend}
+              friendHandler={this.friendHandler}
+              addAFriend={this.addAFriend}
+            />
           )}
         />
       </div>
