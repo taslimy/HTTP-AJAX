@@ -19,7 +19,12 @@ export default class FriendForm extends Component {
                 placeholder="First Name & Last Name"
                 type="text"
                 name="name"
-                onChange={this.props.friendHandler}
+                onChange={e => {
+                  return this.props.friendHandler(
+                    e.target.name,
+                    e.target.value
+                  );
+                }}
                 value={this.props.newFriend.name}
               />
             </div>
@@ -28,9 +33,14 @@ export default class FriendForm extends Component {
               <label>Age</label>
               <input
                 placeholder="Age"
-                type="number"
+                type="text"
                 name="age"
-                onChange={this.props.friendHandler}
+                onChange={e => {
+                  return this.props.friendHandler(
+                    e.target.name,
+                    e.target.value
+                  );
+                }}
                 value={this.props.newFriend.age}
               />
             </div>
@@ -39,9 +49,14 @@ export default class FriendForm extends Component {
               <label>Email</label>
               <input
                 placeholder="example@gmail.com"
-                type="email"
+                type="text"
                 name="email"
-                onChange={this.props.friendHandler}
+                onChange={e => {
+                  return this.props.friendHandler(
+                    e.target.name,
+                    e.target.value
+                  );
+                }}
                 value={this.props.newFriend.email}
               />
             </div>
